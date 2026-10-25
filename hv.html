@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Presentación profesional de Rosa Milena Hinestroza Córdoba - Desarrolladora de Software y Automatización.">
+    <title>Rosa Milena Hinestroza Córdoba | Portafolio Interactivo</title>
+    <style>
+        :root {
+            --bg: #12100e;
+            --slide-bg: #1a1714;
+            --surface: #1f1b17;
+            --accent: #d4a373;
+            --text-main: #f5f3ef;
+            --text-muted: #b0a89f;
+            --border: rgba(212, 163, 115, 0.2);
+            --radius: 16px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Contenedor general tipo presentación */
+        .presentation-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Estilo de cada Diapositiva (Slide) */
+        .slide {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.95);
+            width: 88vw;
+            max-width: 1050px;
+            height: 82vh;
+            background: var(--slide-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+            padding: 40px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow-y: auto;
+        }
+
+        .slide.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        /* Encabezado de Diapositiva */
+        .slide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+
+        .slide-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .slide-number {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: bold;
+        }
+
+        /* Contenido interno */
+        .slide-body {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Diapositiva 1: Portada */
+        .hero-slide {
+            text-align: center;
+            align-items: center;
+        }
+
+        .profile-img {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent);
+            margin-bottom: 15px;
+        }
+
+        .hero-slide h1 {
+            font-size: 2.2rem;
+            margin: 10px 0;
+            letter-spacing: 1px;
+        }
+
+        .hero-slide h3 {
+            color: var(--accent);
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        .hero-slide p {
+            max-width: 700px;
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin: 0 auto;
+        }
+
+        /* Grid de elementos y tarjetas */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .card h4 {
+            margin: 0 0 8px;
+            color: var(--accent);
+            font-size: 1.05rem;
+        }
+
+        .card p, .card ul {
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .card ul {
+            padding-left: 18px;
+        }
+
+        .card li {
+            margin-bottom: 5px;
+        }
+
+        /* Listas y Badges */
+        .badge-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .badge {
+            background: rgba(212, 163, 115, 0.1);
+            color: var(--accent);
+            border: 1px solid var(--border);
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* Controles de Navegación inferior */
+        .controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            background: rgba(18, 16, 14, 0.85);
+            padding: 10px 20px;
+            border-radius: 30px;
+            border: 1px solid var(--border);
+            backdrop-filter: blur(5px);
+            z-index: 10;
+        }
+
+        .btn {
+            background: var(--accent);
+            color: var(--bg);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .btn:hover {
+            opacity: 0.85;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--border);
+        }
+
+        .nav-indicators {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        /* Responsive para móviles */
+        @media (max-width: 768px) {
+            .slide {
+                width: 92vw;
+                height: 85vh;
+                padding: 20px;
+            }
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            .hero-slide h1 {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="presentation-container">
+
+    <!-- Diapositiva 1: Portada -->
+    <section class="slide active" id="slide-1">
+        <div class="slide-header">
+            <h2>Presentación Profesional</h2>
+            <span class="slide-number">01 / 06</span>
+        </div>
+        <div class="slide-body hero-slide">
+            <img src="watermarked_img_13617571865711772578.jpg" alt="Rosa Milena Hinestroza" class="profile-img" onerror="this.src='https://via.placeholder.com/150/1a1714/d4a373?text=RM'">
+            <h1>ROSA MILENA HINESTROZA CÓRDOBA</h1>
+            <h3>Desarrollo de Software & Automatización Industrial</h3>
+            <p>Portafolio interactivo de proyectos, experiencia y competencias técnicas. Diseñado con una estructura moderna orientada a la ingeniería de software y soluciones tecnológicas.</p>
+        </div>
+    </section>
+
+    <!-- Diapositiva 2: Sobre Mí & Contacto -->
+    <section class="slide" id="slide-2">
+        <div class="slide-header">
+            <h2>Sobre Mí & Contacto</h2>
+            <span class="slide-number">02 / 06</span>
+        </div>
+        <div class="slide-body grid-2">
+            <div class="card">
+                <h4>Perfil Profesional</h4>
+                <p>Desarrolladora de software full-stack y tecnóloga en mantenimiento de instrumentación electrónica e industrial. Actualmente cursando Análisis y Desarrollo de Software (ADSO) en el SENA. Especialista en integrar sistemas web robustos con hardware y automatización.</p>
+            </div>
+            <div class="card">
+                <h4>Información de Contacto</h4>
+                <p><strong>Ubicación:</strong> Medellín, Colombia</p>
+                <p><strong>Teléfono:</strong> 300 779 7981</p>
+                <p><strong>Correo:</strong> rosimilec@hotmail.com</p>
+                <p><strong>GitHub:</strong> <a href="https://github.com/lillystarfull" target="_blank" style="color: var(--accent);">lillystarfull</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Diapositiva 3: Experiencia Laboral -->
+    <section class="slide" id="slide-3">
+        <div class="slide-header">
+            <h2>Experiencia Laboral</h2>
+            <span class="slide-number">03 / 06</span>
+        </div>
+        <div class="slide-body grid-2">
+            <div class="card">
+                <h4>Desarrolladora de Software / Consultora</h4>
+                <p style="color: var(--accent); font-size: 0.8rem; margin-bottom: 8px;">Ene 2023 – Presente | Independiente</p>
+                <ul>
+                    <li>Lideré sistemas web como <strong>ZYAFOOD</strong> y CRM (DCRM) con Django y FastAPI.</li>
+                    <li>Arquitectura e integración de API RESTful y optimización SQL en PostgreSQL.</li>
+                    <li>Automatización con IA local (Ollama y n8n).</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h4>Instructora & Especialista ADSO</h4>
+                <p style="color: var(--accent); font-size: 0.8rem; margin-bottom: 8px;">Ene 2020 – Dic 2022 | Medellín</p>
+                <ul>
+                    <li>Mentoría técnica en programación orientada a objetos y bases de datos.</li>
+                    <li>Creación de repositorios educativos (ApiRES, TutorialPython).</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Diapositiva 4: Stack Tecnológico -->
+    <section class="slide" id="slide-4">
+        <div class="slide-header">
+            <h2>Stack Tecnológico</h2>
+            <span class="slide-number">04 / 06</span>
+        </div>
+        <div class="slide-body grid-2">
+            <div class="card">
+                <h4>Desarrollo Web & Backend</h4>
+                <div class="badge-container">
+                    <span class="badge">Python</span>
+                    <span class="badge">Django</span>
+                    <span class="badge">FastAPI</span>
+                    <span class="badge">TypeScript</span>
+                    <span class="badge">PHP</span>
+                    <span class="badge">React / Vue</span>
+                </div>
+            </div>
+            <div class="card">
+                <h4>Bases de Datos & Automatización</h4>
+                <div class="badge-container">
+                    <span class="badge">PostgreSQL</span>
+                    <span class="badge">MySQL</span>
+                    <span class="badge">Ollama</span>
+                    <span class="badge">n8n</span>
+                    <span class="badge">Docker</span>
+                    <span class="badge">Git / GitHub</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Diapositiva 5: Formación & Certificaciones -->
+    <section class="slide" id="slide-5">
+        <div class="slide-header">
+            <h2>Formación y Certificaciones</h2>
+            <span class="slide-number">05 / 06</span>
+        </div>
+        <div class="slide-body grid-2">
+            <div class="card">
+                <h4>Formación Académica</h4>
+                <ul>
+                    <li><strong>ADSO (En curso):</strong> SENA - Análisis y Desarrollo de Software.</li>
+                    <li><strong>Tecnología (2011):</strong> Mantenimiento Electrónico e Instrumental Industrial - SENA.</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h4>Certificaciones Destacadas</h4>
+                <ul>
+                    <li><strong>Python & Algoritmos (66h):</strong> Alcaldía de Medellín & Cymetria (2026).</li>
+                    <li><strong>Inteligencia Artificial:</strong> Estud-IA / Google One AI (2025-2026).</li>
+                    <li><strong>Idiomas:</strong> Español (Nativo) | Inglés (B1 hacia B2).</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Diapositiva 6: Cierre / Portafolio -->
+    <section class="slide" id="slide-6">
+        <div class="slide-header">
+            <h2>Portafolio y Contacto</h2>
+            <span class="slide-number">06 / 06</span>
+        </div>
+        <div class="slide-body hero-slide">
+            <h3>¡Gracias por su atención!</h3>
+            <p>Puedes explorar mis repositorios públicos y proyectos de código abierto directamente en mi perfil de GitHub.</p>
+            <div style="margin-top: 25px;">
+                <a href="https://github.com/lillystarfull" target="_blank" class="btn" style="text-decoration: none; display: inline-block; margin-right: 10px;">Ver Perfil en GitHub</a>
+                <button class="btn btn-secondary" onclick="window.print()">Imprimir / Guardar PDF</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Barra de Controles Deslizantes / Diapositivas -->
+    <div class="controls">
+        <button class="btn btn-secondary" onclick="prevSlide()">❮ Anterior</button>
+        <span class="nav-indicators" id="indicator">1 / 6</span>
+        <button class="btn" onclick="nextSlide()">Siguiente ❯</button>
+    </div>
+
+</div>
+
+<script>
+    let currentSlide = 1;
+    const totalSlides = 6;
+
+    function showSlide(n) {
+        if (n > totalSlides) currentSlide = 1;
+        if (n < 1) currentSlide = totalSlides;
+
+        document.querySelectorAll('.slide').forEach(slide => {
+            slide.classList.remove('active');
+        });
+
+        document.getElementById(`slide-${currentSlide}`).classList.add('active');
+        document.getElementById('indicator').innerText = `${currentSlide} / ${totalSlides}`;
+    }
+
+    function nextSlide() {
+        currentSlide++;
+        showSlide(currentSlide);
+    }
+
+    function prevSlide() {
+        currentSlide--;
+        showSlide(currentSlide);
+    }
+
+    // Soporte para teclado (Flechas izquierda/derecha y espacio)
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === ' ') {
+            nextSlide();
+        } else if (e.key === 'ArrowLeft') {
+            prevSlide();
+        }
+    });
+</script>
+
+</body>
+</html>
